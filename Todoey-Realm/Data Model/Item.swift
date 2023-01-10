@@ -8,9 +8,11 @@
 import Foundation
 import RealmSwift
 
+@objcMembers
 class Item: Object {
-    @objc dynamic var name: String = ""
-    @objc dynamic var isChecked: Bool = false
+    dynamic var name: String = ""
+    dynamic var isChecked: Bool = false
+    dynamic var dateCreated: Date = Date()
     var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
     
     convenience init(name: String, isChecked: Bool) {

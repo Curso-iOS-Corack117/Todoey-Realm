@@ -8,8 +8,9 @@
 import Foundation
 import RealmSwift
 
+@objcMembers
 class Category: Object {
-    @objc dynamic var name: String = ""
+    dynamic var name: String = ""
     let items = List<Item>()
     
     convenience init(name: String) {

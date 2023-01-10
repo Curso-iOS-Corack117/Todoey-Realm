@@ -103,8 +103,8 @@ class ToDoTableViewController: UITableViewController {
 extension ToDoTableViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if !searchBar.text!.isEmpty{
-//            let predicate = NSPredicate(format: "name CONTAINS[cd] %@", searchBar.text!)
-            loadItems()
+            itemsArray = itemsArray?.filter("name CONTAINS[cd] %@", searchBar.text!)
+            tableView.reloadData()
         }
     }
     
