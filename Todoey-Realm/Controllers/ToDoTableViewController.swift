@@ -54,6 +54,24 @@ class ToDoTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
+            if let item = self.itemsArray?[indexPath.row] {
+                do {
+                    try self.realm.write { self.realm.delete(item) }
+                    self.tableView.reloadData()
+                } catch {
+                    print("Error deleting item, \(error)")
+                }
+                completionHandler(true)
+            }
+        }
+        action.image = UIImage(systemName: "trash")
+        let swipeActionConfig = UISwipeActionsConfiguration(actions: [action])
+        swipeActionConfig.performsFirstActionWithFullSwipe = true
+        return swipeActionConfig
+    }
+    
     //MARK: - Add Category
     
     @IBAction func addItems(_ sender: Any) {

@@ -37,6 +37,23 @@ class CategoryViewController: UITableViewController {
         performSegue(withIdentifier: "goToItems", sender: self)
     }
     
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
+            if let category = self.categories?[indexPath.row] {
+                do {
+                    try self.realm.write { self.realm.delete(category) }
+                    self.tableView.reloadData()
+                } catch {
+                    print("Error deleting category, \(error)")
+                }
+            }
+            completionHandler(true)
+        }
+        action.image = UIImage(systemName: "trash")
+        let swipeActionConfig = UISwipeActionsConfiguration(actions: [action])
+        return swipeActionConfig
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destinationVC = segue.destination as! ToDoTableViewController
         if let indexPath = self.tableView.indexPathForSelectedRow {
